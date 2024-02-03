@@ -1,5 +1,7 @@
 {
     "require": {
-        "duncan3dc/sonos": "^2.2"
+        "duncan3dc/sonos": "^2.2",
+        "laravel/helpers": "^1.7",
+        "guzzlehttp/guzzle": "^7.8"
     }
 }
