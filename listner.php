@@ -2,16 +2,22 @@
 
 require 'vendor/autoload.php';
 
-use GuzzleHttp\Client;
-use Illuminate\Support\Str;
 use duncan3dc\Sonos\Network;
+use GuzzleHttp\Client;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class Sonos
 {
     public $controllers;
+
     public $results;
-    public $apiKey = "";
+
+    public $apiKey = '';
+
+    public $endpoint = 'https://vormkracht10-app.test/sonos/controller';
+
+
     public function __construct()
     {
         $network = new Network();
@@ -39,8 +45,8 @@ class Sonos
                 $fileName = Str::random(40);
                 $destinationPathWithExtension = "images/{$fileName}.jpg";
 
-                if (!file_exists("images")) {
-                    mkdir("images");
+                if (!file_exists('images')) {
+                    mkdir('images');
                 }
 
                 $imageContent = file_get_contents($albumArtUrl);
@@ -91,6 +97,7 @@ class Sonos
             return null;
         } catch (\Exception $e) {
             echo 'Error uploading image: ' . $e->getMessage();
+
             return null;
         }
     }
