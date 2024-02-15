@@ -1,4 +1,5 @@
 /vendor/
+/cronlog/*
 /images/
 /.env
 /composer.lock
