@@ -1,18 +1,20 @@
-# Setting Up Environment Variables
+# Setting Up The Sonos Webhook Sender
 
-This script helps set up the `.env` file with the necessary environment variables for your application.
+This script helps set up the webhook sender system for Sonos.
 
 ## Prerequisites
 
-Make sure you have PHP installed on your system.
+Make sure you have `php^7.3` or `php^7.4`  installed on your system.
 
 ## Setup Steps
 
-1. Open your terminal and navigate to the project directory.
+1. Open your terminal and navigate to `/var/www/`.
 
-2. Copy the provided PHP script and save it as `setup.php` in your project directory.
+2. Enter the following command:
+   ```bash
+   git clone git@github.com:vormkracht10/sonos.git && cd sonos
 
-3. Run the following command in your terminal to execute the setup script:
+3. Run the following command in your terminal to execute the setup of the webhook system:
 
    ```bash
-   php setup.php
+   composer install && php setup.php
