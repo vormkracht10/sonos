@@ -13,7 +13,6 @@ class Sonos
 
     public $endpoint = 'https://vormkracht10-app.test/sonos/controller';
 
-
     public function __construct(Network $network) {}
 
     public function run()
