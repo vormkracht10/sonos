@@ -5,7 +5,6 @@ require __DIR__.'/bootstrap.php';
 use duncan3dc\Sonos\Network;
 use GuzzleHttp\Client;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
 
 class Sonos
 {
@@ -60,6 +59,3 @@ class Sonos
         }
     }
 }
-
-$sonos = new Sonos();
-$sonos->run();
