@@ -31,7 +31,7 @@ class SonosData
                 'speaker' => $controller->getRoom(),
                 'title' => $stateDetails->getTitle(),
                 'artist' => $stateDetails->getArtist(),
-                // 'cover' => $stateDetails->getAlbumArt() ? base64_encode(file_get_contents($stateDetails->getAlbumArt())) : null,
+                'cover' => $stateDetails->getAlbumArt() ? base64_encode(file_get_contents($stateDetails->getAlbumArt())) : null,
                 'timestamp' => time(),
             ];
         }
@@ -62,6 +62,7 @@ class SonosData
 
                 $statusCode = $response->getStatusCode();
                 $body = $response->getBody();
+                echo $body;
             } catch (\Exception $e) {
                 echo "Error occurred: " . $e->getMessage() . "\n";
             }
