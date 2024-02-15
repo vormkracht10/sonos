@@ -29,8 +29,4 @@ Make sure you have `php^7.3` or `php^7.4`  installed on your system.
    ```bash
    composer install && php setup.php
 
-4. Insert in to crontab (`crontab -e`)
-
-   ```bash
-   * * * * * /usr/bin/php /var/www/sonos/cron.php >> /var/www/sonos/cronlog/sonos.log 2>&1
-5. Enjoy!
+4. Enjoy!
