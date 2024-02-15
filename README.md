@@ -18,3 +18,9 @@ Make sure you have `php^7.3` or `php^7.4`  installed on your system.
 
    ```bash
    composer install && php setup.php
+
+4. Insert `* * * * * /usr/bin/php /var/www/sonos/listner.php` in the crontab
+
+   ```bash
+   crontab -e
+5. Enjoy!
