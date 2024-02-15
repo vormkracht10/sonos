@@ -2,9 +2,8 @@
 
 use duncan3dc\Sonos\Network;
 use GuzzleHttp\Client;
-use Illuminate\Support\Carbon;
 
-class SonosData
+class Sonos
 {
     public $network;
 
@@ -15,31 +14,33 @@ class SonosData
 
     public function run()
     {
-        $tracks = $this->getNowPlayingTracks();
+        $speakers = $this->getNowPlayingTracks();
 
-        $this->sendTracksToWebhooks($tracks);
+        $this->sendTracksToWebhooks($speakers);
     }
 
     public function getNowPlayingTracks()
     {
-        $tracks = [];
-
         foreach ($this->network->getControllers() as $controller) {
             $stateDetails = $controller->getStateDetails();
-            $tracks[] = [
+
+            $speakers[$controller->getRoom()] = [
+                'state' => $controller->getStateName(),
                 'volume' => $controller->getVolume(),
-                'speaker' => $controller->getRoom(),
                 'title' => $stateDetails->getTitle(),
                 'artist' => $stateDetails->getArtist(),
-                'cover' => $stateDetails->getAlbumArt() ? base64_encode(file_get_contents($stateDetails->getAlbumArt())) : null,
+                'album' => $stateDetails->getAlbum(),
+                'duration' => $stateDetails->getDuration()->asInt(),
+                'position' => $stateDetails->getPosition()->asInt(),
+                'cover' => $stateDetails->getAlbumArt(),
                 'timestamp' => time(),
             ];
         }
 
-        return $tracks;
+        return $speakers;
     }
 
-    public function sendTracksToWebhooks(array $tracks)
+    public function sendTracksToWebhooks(array $speakers)
     {
         $endpoints = [
             'https://vormkracht10-app.test/webhooks/sonos',
@@ -48,8 +49,9 @@ class SonosData
 
         $client = new Client();
 
-        $json = json_encode(['tracks' => json_encode($tracks)]);
+        $json = json_encode(['speakers' => json_encode($speakers)]);
         $passkey = getenv('SONOS_PASSKEY');
+
         foreach ($endpoints as $endpoint) {
             try {
                 $hash = hash_hmac('sha256', $json, $passkey);

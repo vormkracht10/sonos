@@ -2,8 +2,6 @@
 
 require __DIR__ . '/bootstrap.php';
 
-
-
-$sonos = new SonosData();
+$sonos = new Sonos();
 
 echo $sonos->run();
