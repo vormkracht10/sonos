@@ -1,3 +1,16 @@
+<h1 align="center">
+  <br>
+  <img width="256" src="https://vormkracht10.nl/cdn/13f1e3fb-15c8-4655-bf9b-a85899694c45/-/format/auto/-/quality/smart/vk10-github.png" />
+  <br>
+  Sonos - Vormkracht10
+  <br>
+</h1>
+
+
+<h4 align="center"></h4>
+
+
+
 # Setting Up The Sonos Webhook Sender
 
 This script helps set up the webhook sender system for Sonos.
