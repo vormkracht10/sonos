@@ -26,7 +26,7 @@ class Sonos
         foreach ($this->network->getControllers() as $controller) {
             $stateDetails = $controller->getStateDetails();
             
-            $tracks = [
+            $tracks[] = [
                 'speaker' => $controller->getRoom(),
                 'title' => $stateDetails->getTitle(),
                 'artist' => $stateDetails->getArtist(),
