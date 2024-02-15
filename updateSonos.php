@@ -1,9 +1,9 @@
 <?php
 
-require 'vendor/autoload.php';
+require __DIR__.'/bootstrap.php';
 
-use GuzzleHttp\Client;
 use duncan3dc\Sonos\Network;
+use GuzzleHttp\Client;
 use Illuminate\Support\Carbon;
 
 class Sonos
@@ -59,6 +59,6 @@ class Sonos
 
 
 
-//Emergency Volume 
+//Emergency Volume
 $sonos = new Sonos();
 $sonos->run();

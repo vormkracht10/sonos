@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+require __DIR__.'/bootstrap.php';
 
 use duncan3dc\Sonos\Network;
 use GuzzleHttp\Client;
@@ -17,7 +17,7 @@ class Sonos
 
     //Dit moet ook de refresh time van de deamon worden om het php script te runnen
     public $expiration = 600;
-    
+
     public $endpoint = 'https://vormkracht10-app.test/sonos/controller';
 
 
