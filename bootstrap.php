@@ -9,9 +9,7 @@ require __DIR__ . '/vendor/autoload.php';
 
 require __DIR__ . '/sonos.php';
 
-$filePath = '.env';
-
-if (file_exists($filePath) || filesize($filePath) > 0) {
+if (file_exists('.env') || filesize('.env') > 0) {
     $repository = RepositoryBuilder::createWithNoAdapters()
         ->addAdapter(EnvConstAdapter::class)
         ->addWriter(PutenvAdapter::class)
@@ -21,5 +19,5 @@ if (file_exists($filePath) || filesize($filePath) > 0) {
     $dotenv = Dotenv::create($repository, __DIR__);
     $dotenv->load();
 } else {
-    echo "First run `php setup.php`";
+    echo 'First run `php setup.php`';
 }

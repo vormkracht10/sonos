@@ -1,6 +1,6 @@
 {
     "require": {
-        "php": "^7.4 || ^7.3",
+        "php": "^7.3 || ^7.4",
         "duncan3dc/sonos": "^2.2",
         "laravel/helpers": "^1.7",
         "guzzlehttp/guzzle": "^7.8",
