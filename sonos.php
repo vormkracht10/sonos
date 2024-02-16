@@ -46,27 +46,27 @@ class Sonos
         $client = new Client();
 
         $json = json_encode(['speakers' => $speakers]);
-        $passkey = getenv('SONOS_PASSKEY');
-        $endpoints = json_decode(getenv("SONOS_ENDPOINTS"));
-        foreach ($endpoints as $endpoint) {
-            try {
-                $hash = hash_hmac('sha256', $json, $passkey);
-                $response = $client->post($endpoint, [
-                    'json' => $json,
-                    'headers' => [
-                        'X-Signature' => $hash,
-                    ]
-                ]);
 
-                $statusCode = $response->getStatusCode();
-                $body = $response->getBody();
-                if ($statusCode == 200) {
-                    echo "Endpoint succesfully send to " . $endpoint . "\n";
-                }
-            } catch (\Exception $e) {
-                echo "Endpoint faild to send to " . $endpoint . "\n";
-                echo "Error occurred: " . $e->getMessage() . "\n";
+        $passkey = getenv('SONOS_SECRET');
+        $endpoint = json_decode(getenv("SONOS_ENDPOINT"));
+
+        try {
+            $hash = hash_hmac('sha256', $json, $passkey);
+            $response = $client->post($endpoint, [
+                'json' => $json,
+                'headers' => [
+                    'X-Signature' => $hash,
+                ]
+            ]);
+
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode == 200) {
+                echo "Endpoint succesfully send to " . $endpoint . "\n";
             }
+        } catch (\Exception $e) {
+            echo "Endpoint faild to send to " . $endpoint . "\n";
+            echo "Error occurred: " . $e->getMessage() . "\n";
         }
     }
 }
