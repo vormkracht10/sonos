@@ -6,7 +6,6 @@ use GuzzleHttp\Client;
 class Sonos
 {
     public $network;
-    public $endpoints;
 
     public function __construct()
     {
@@ -47,11 +46,11 @@ class Sonos
 
         $json = json_encode(['speakers' => $speakers]);
 
-        $passkey = getenv('SONOS_SECRET');
-        $endpoint = json_decode(getenv("SONOS_ENDPOINT"));
+        $secret = getenv('SONOS_SECRET');
+        $endpoint = getenv('SONOS_ENDPOINT');
 
         try {
-            $hash = hash_hmac('sha256', $json, $passkey);
+            $hash = hash_hmac('sha256', $json, $secret);
             $response = $client->post($endpoint, [
                 'json' => $json,
                 'headers' => [
