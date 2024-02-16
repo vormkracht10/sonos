@@ -6,6 +6,7 @@ use GuzzleHttp\Client;
 class Sonos
 {
     public $network;
+    public $endpoints;
 
     public function __construct()
     {
@@ -42,16 +43,11 @@ class Sonos
 
     public function sendTracksToWebhooks(array $speakers)
     {
-        $endpoints = [
-            'https://vormkracht10-app.test/webhooks/sonos',
-            'https://vormkracht10.app/webhooks/sonos',
-        ];
-
         $client = new Client();
 
-        $json = json_encode(['speakers' => json_encode($speakers)]);
+        $json = json_encode(['speakers' => $speakers]);
         $passkey = getenv('SONOS_PASSKEY');
-
+        $endpoints = json_decode(getenv("SONOS_ENDPOINTS"));
         foreach ($endpoints as $endpoint) {
             try {
                 $hash = hash_hmac('sha256', $json, $passkey);
@@ -64,8 +60,11 @@ class Sonos
 
                 $statusCode = $response->getStatusCode();
                 $body = $response->getBody();
-                echo $body;
+                if ($statusCode == 200) {
+                    echo "Endpoint succesfully send to " . $endpoint . "\n";
+                }
             } catch (\Exception $e) {
+                echo "Endpoint faild to send to " . $endpoint . "\n";
                 echo "Error occurred: " . $e->getMessage() . "\n";
             }
         }
