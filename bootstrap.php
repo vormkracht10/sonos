@@ -9,7 +9,9 @@ require __DIR__ . '/vendor/autoload.php';
 
 require __DIR__ . '/sonos.php';
 
-if (file_exists('.env') || filesize('.env') > 0) {
+$env = __DIR__.'/.env';
+
+if (file_exists($env) || filesize($env) > 0) {
     $repository = RepositoryBuilder::createWithNoAdapters()
         ->addAdapter(EnvConstAdapter::class)
         ->addWriter(PutenvAdapter::class)
