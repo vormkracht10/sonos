@@ -1,6 +1,6 @@
 <?php
 
-require __DIR__.'/bootstrap.php';
+require __DIR__ . '/bootstrap.php';
 
 use duncan3dc\Sonos\Network;
 use GuzzleHttp\Client;
@@ -14,7 +14,7 @@ class Sonos
 
     public $apiKey = '';
 
-    public $endpoint = 'https://vormkracht10-app.test/sonos/controller';
+    public $endpoint = '';
     public function __construct()
     {
         $network = new Network();
