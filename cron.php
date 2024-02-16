@@ -4,4 +4,9 @@ require __DIR__ . '/bootstrap.php';
 
 $sonos = new Sonos();
 
-echo $sonos->run();
+foreach([0, 10, 20, 30, 40, 50] as $seconds)
+{
+    $sonos->run();
+
+    sleep(10);
+}

@@ -51,6 +51,7 @@ class Sonos
 
         try {
             $hash = hash_hmac('sha256', $json, $secret);
+
             $response = $client->post($endpoint, [
                 'json' => $json,
                 'headers' => [
