@@ -6,7 +6,7 @@ This script helps set up the webhook sender system for Sonos.
 
 ### Prerequisites
 
-Make sure you have `php^7.3` or `php^7.4` installed on your system.
+Make sure you have PHP ^7.3 installed on your system.
 
 ### Setup Steps
 
