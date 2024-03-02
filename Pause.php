@@ -1,7 +1,7 @@
 <?php
 
-use GuzzleHttp\Client;
 use duncan3dc\Sonos\Network;
+use GuzzleHttp\Client;
 use Illuminate\Support\Carbon;
 
 class Pause
@@ -18,7 +18,7 @@ class Pause
     {
         $network = new Network();
         $this->controllers = $network->getControllers();
-        $this->endpoint = getenv('SONOS_ENDPOINT') . "/webhooks/sonos/state";
+        $this->endpoint = getenv('SONOS_ENDPOINT').'/webhooks/sonos/state';
     }
 
     public function run()
@@ -33,18 +33,20 @@ class Pause
                     $inputDate = $input['date'];
                     if ($inputDate && (Carbon::parse($inputDate)->gt(Carbon::now()->subSeconds(10)))) {
 
-                        if ($input['state'] === "PAUSED_PLAYBACK") {
-                            echo "Pausing";
+                        if ($input['state'] === 'PAUSED_PLAYBACK') {
+                            echo 'Pausing';
                             $controller->pause();
                         } else {
-                            echo "Playing";
+                            echo 'Playing';
                             if ($controller->getState()) {
                                 $controller->play();
                             }
                         }
                     } else {
-                        echo "Speaker $controller_name not found";
+                        echo 'To long ago';
                     }
+                } else {
+                    echo "Speaker $controller_name not found";
                 }
             }
         }
@@ -59,6 +61,7 @@ class Pause
             $result = $response->getBody();
         });
         $promise->wait();
+
         return $result;
     }
 }
