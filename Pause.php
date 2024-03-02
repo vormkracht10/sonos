@@ -26,30 +26,69 @@ class Pause
     {
         $json = $this->getInfo();
         $data = json_decode($json, true);
+        $working_controllers = $this->possible($this->controllers);
+
         foreach ($data as $controller_name => $input) {
-            print_r($input);
+            // if (in_array($controller_name, $working_controllers)) {
             foreach ($this->controllers as $controller) {
-                $speaker = $controller->getRoom();
-                if ($controller_name === $speaker) {
-                    $inputDate = $input['date'];
-                    if ($inputDate && (Carbon::parse($inputDate)->gt(Carbon::now()->subSeconds(10)))) {
-                        if ($input['state'] === 'PAUSED_PLAYBACK') {
-                            echo 'Pausing';
+                if ($controller_name === $controller->getRoom()) {
+                    echo "\nHeyyy speaker $controller_name\n";
+                    if ($input['state'] === 'PLAYING') {
+                        try {
                             $controller->pause();
-                        } else {
-                            echo 'Playing';
-                            if ($controller->getState()) {
-                                $controller->play();
-                            }
+                        } catch (\duncan3dc\Sonos\Exceptions\SoapException $e) {
+                            echo "Error pausing: " . $e->getMessage();
                         }
+                    } elseif ($input['state'] === 'PAUSED_PLAYBACK') {
+                        echo "Resuming playback\n\n";
+                        $controller->play();
                     } else {
-                        echo 'To long ago';
+                        echo "No action required\n\n";
                     }
-                } else {
-                    echo "Speaker $controller_name not found";
                 }
             }
         }
+    }
+    public function possible($allControllers)
+    {
+        $names = [];
+        foreach ($allControllers as $controller) {
+            $names[] = $controller->getRoom();
+        }
+
+        $explain = [];
+        if (in_array('Boiler Room', $names)) {
+            $controller = $this->findControllerByName($allControllers, 'Boiler Room');
+            if ($controller !== null && $controller->getQueue() !== null) {
+                $explain[] = "Boiler Room";
+            }
+        }
+
+        if (in_array('Glass Room', $names)) {
+            $controller = $this->findControllerByName($allControllers, 'Glass Room');
+            if ($controller !== null && $controller->getQueue() !== null) {
+                $explain[] = "Glass Room";
+            }
+        }
+
+        if (in_array('Office', $names)) {
+            $controller = $this->findControllerByName($allControllers, 'Office');
+            if ($controller !== null && $controller->getQueue() !== null) {
+                $explain[] = "Office";
+            }
+        }
+
+        return $explain;
+    }
+
+    private function findControllerByName($controllers, $name)
+    {
+        foreach ($controllers as $controller) {
+            if ($controller->getRoom() === $name) {
+                return $controller;
+            }
+        }
+        return null;
     }
 
     public function getInfo()
