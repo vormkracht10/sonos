@@ -16,12 +16,17 @@ if (!file_exists($envFilePath) || filesize($envFilePath) === 0) {
 
     touch($envFilePath);
 
-    file_put_contents($envFilePath, $data);
+    file_put_contents($envFilePath, $data . PHP_EOL, FILE_APPEND);
+
+    echo 'Enter the "SONOS_ENDPOINT=" value: ';
+    $data = 'SONOS_ENDPOINT="' . trim(fgets(STDIN)) . '"';
+    file_put_contents($envFilePath, $data . PHP_EOL, FILE_APPEND);
 
     echo "Env created\n";
 } else {
     echo "Env already satisfied\n";
 }
+
 
 $newCrontabEntry = '* * * * * /usr/bin/php /var/www/sonos/cron.php >> /var/www/sonos/sonos.log 2>&1';
 

@@ -7,9 +7,11 @@ use Dotenv\Repository\RepositoryBuilder;
 
 require __DIR__ . '/vendor/autoload.php';
 
-require __DIR__ . '/sonos.php';
+require __DIR__ . '/SonosData.php';
 
-$env = __DIR__.'/.env';
+require __DIR__ . '/Pause.php';
+
+$env = __DIR__ . '/.env';
 
 if (file_exists($env) || filesize($env) > 0) {
     $repository = RepositoryBuilder::createWithNoAdapters()

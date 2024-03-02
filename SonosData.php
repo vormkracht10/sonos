@@ -3,7 +3,7 @@
 use duncan3dc\Sonos\Network;
 use GuzzleHttp\Client;
 
-class Sonos
+class SonosData
 {
     public $network;
 
@@ -23,7 +23,6 @@ class Sonos
     {
         foreach ($this->network->getControllers() as $controller) {
             $stateDetails = $controller->getStateDetails();
-
             $speakers[$controller->getRoom()] = [
                 'state' => $controller->getStateName(),
                 'volume' => $controller->getVolume(),
@@ -45,9 +44,8 @@ class Sonos
         $client = new Client();
 
         $json = json_encode(['speakers' => $speakers]);
-
         $secret = getenv('SONOS_SECRET');
-        $endpoint = getenv('SONOS_ENDPOINT');
+        $endpoint = getenv('SONOS_ENDPOINT') . "/webhooks/sonos";
 
         try {
             $hash = hash_hmac('sha256', $json, $secret);
@@ -60,9 +58,11 @@ class Sonos
             ]);
 
             $statusCode = $response->getStatusCode();
+            var_dump($statusCode);
 
             if ($statusCode == 200) {
                 echo "Endpoint succesfully send to " . $endpoint . "\n";
+                echo "Body " . $response->getBody() . "\n";
             }
         } catch (\Exception $e) {
             echo "Endpoint faild to send to " . $endpoint . "\n";
