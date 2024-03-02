@@ -34,7 +34,6 @@ class SonosData
                 'cover' => $stateDetails->getAlbumArt(),
                 'timestamp' => time(),
             ];
-            echo $stateDetails->getAlbumArt();
         }
 
         return $speakers;
@@ -59,7 +58,6 @@ class SonosData
             ]);
 
             $statusCode = $response->getStatusCode();
-            var_dump($statusCode);
 
             if ($statusCode == 200) {
                 echo 'Endpoint succesfully send to ' . $endpoint . "\n";
