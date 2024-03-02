@@ -26,20 +26,25 @@ class Pause
         $json = $this->getInfo();
         $data = json_decode($json, true);
         foreach ($data as $controller_name => $input) {
+            print_r($input);
             foreach ($this->controllers as $controller) {
                 $speaker = $controller->getRoom();
                 if ($controller_name === $speaker) {
-                    if ($input['state'] === "PAUSED_PLAYBACK") {
-                        echo "Pausing";
-                        $controller->pause();
-                    } else {
-                        echo "Playing";
-                        if ($controller->getState()) {
-                            $controller->play();
+                    $inputDate = $input['date'];
+                    if ($inputDate && (Carbon::parse($inputDate)->gt(Carbon::now()->subSeconds(10)))) {
+
+                        if ($input['state'] === "PAUSED_PLAYBACK") {
+                            echo "Pausing";
+                            $controller->pause();
+                        } else {
+                            echo "Playing";
+                            if ($controller->getState()) {
+                                $controller->play();
+                            }
                         }
+                    } else {
+                        echo "Speaker $controller_name not found";
                     }
-                } else {
-                    echo "Speaker $controller_name not found";
                 }
             }
         }
