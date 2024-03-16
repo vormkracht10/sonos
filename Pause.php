@@ -24,21 +24,33 @@ class Pause
 
     public function run()
     {
+        $controllers_app = json_decode($this->getInfo());
+        foreach ($this->controllers as $controller_home) {
+            $controller_ip = $controller_home->getIp();
 
-        $json = $this->getInfo();
-        $data = json_decode($json, true);
-
-        foreach ($this->controllers as $controller_root) {
-            $controller_name = $controller_root->getRoom();
-            foreach ($data as $controller => $input) {
-                if ($controller_name === $controller) {
-                    $current_state = $controller_root->getState();
-                    if ($input['state'] === "PAUSED_PLAYBACK" && $current_state !== 'PAUSED_PLAYBACK') {
-                        $controller_root->pause();
-                    } elseif ($input['state'] === "PLAYBACK" && $current_state !== 'PLAYING') {
-                        $controller_root->play();
-                    }
+            if (isset($controllers_app->$controller_ip)) {
+                $data = $controllers_app->$controller_ip;
+                $date = Carbon::parse($data->timestamp);
+                $current_time = Carbon::now();
+                if ($date->diffInSeconds($current_time) > 10) {
+                    continue;
                 }
+                if (isset($data->custom_state)) {
+                    if ($data->custom_state === "PAUSED_PLAYBACK") {
+                        echo "Pausing the hell out of $controller_ip\n";
+                        $controller_home->setState(203);
+                    } elseif ($data->custom_state === "PLAYING") {
+                        echo "Playing the hell out of $controller_ip\n";
+                        $controller_home->setState(202);
+                    } else {
+                        var_dump($data->custom_state);
+                    }
+                    echo "Match.....\n\n\n\n\n\n\n";
+                } else {
+                    echo "No custom_state for controller: $controller_ip\n";
+                }
+            } else {
+                echo "No data available for controller: $controller_ip\n";
             }
         }
     }

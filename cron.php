@@ -2,15 +2,14 @@
 
 require __DIR__ . '/bootstrap.php';
 
-$sonosDaa = new SonosData();
-// $sonosPause = new Pause();
+$sonosData = new SonosData();
+$sonosPause = new Pause();
 
-foreach (range(0, 60) as $seconds) {
-    $sonosDaa->run();
+foreach (range(0, 1000000) as $seconds) {
+    // $sonosData->run();
     // try {
-    //     $sonosPause->run();
+    $sonosPause->run();
     // } catch (Exception $e) {
-
     //     echo "$e";
     // }
     sleep(1);

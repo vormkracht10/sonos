@@ -15,7 +15,7 @@ class SonosData
     public function run()
     {
         $speakers = $this->getNowPlayingTracks();
-
+        // var_dump($speakers);
         $this->sendTracksToWebhooks($speakers);
     }
 
@@ -23,7 +23,8 @@ class SonosData
     {
         foreach ($this->network->getControllers() as $controller) {
             $stateDetails = $controller->getStateDetails();
-            $speakers[$controller->getRoom()] = [
+            $speakers[$controller->getIp()] = [
+                'room' => $controller->getRoom(),
                 'state' => $controller->getStateName(),
                 'volume' => $controller->getVolume(),
                 'title' => $stateDetails->getTitle(),
@@ -35,7 +36,6 @@ class SonosData
                 'timestamp' => time(),
             ];
         }
-
         return $speakers;
     }
 
