@@ -36,6 +36,7 @@ class SonosData
                 'timestamp' => time(),
             ];
         }
+
         return $speakers;
     }
 
@@ -45,7 +46,7 @@ class SonosData
 
         $json = json_encode(['speakers' => $speakers]);
         $secret = getenv('SONOS_SECRET');
-        $endpoint = getenv('SONOS_ENDPOINT') . '/webhooks/sonos';
+        $endpoint = getenv('SONOS_ENDPOINT').'/webhooks/sonos';
 
         try {
             $hash = hash_hmac('sha256', $json, $secret);
@@ -60,12 +61,12 @@ class SonosData
             $statusCode = $response->getStatusCode();
 
             if ($statusCode == 200) {
-                echo 'Endpoint succesfully send to ' . $endpoint . "\n";
-                echo 'Body ' . $response->getBody() . "\n";
+                echo 'Endpoint succesfully send to '.$endpoint."\n";
+                echo 'Body '.$response->getBody()."\n";
             }
         } catch (\Exception $e) {
-            echo 'Endpoint faild to send to ' . $endpoint . "\n";
-            echo 'Error occurred: ' . $e->getMessage() . "\n";
+            echo 'Endpoint faild to send to '.$endpoint."\n";
+            echo 'Error occurred: '.$e->getMessage()."\n";
         }
     }
 }

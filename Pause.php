@@ -1,15 +1,9 @@
 <?php
 
-use GuzzleHttp\Client;
 use duncan3dc\Sonos\Network;
-use Illuminate\Support\Carbon;
-use duncan3dc\Sonos\Tracks\Track;
-use duncan3dc\Sonos\Tracks\TextToSpeech;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
-use duncan3dc\Sonos\Utils\Directory;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Filesystem;
-use Duncan3dc\Sonos\Controller;
+use Illuminate\Support\Carbon;
 
 class Pause
 {
@@ -40,24 +34,27 @@ class Pause
                     $data = $controllers_app->speakers->$controller_ip;
                     if ($data) {
                         if (isset($data->custom_state)) {
+                            $date = Carbon::parse($data->timestamp);
+                            $current_time = Carbon::now();
+                            if ($date->diffInSeconds($current_time) > 10) {
+                                continue;
+                            }
                             switch ($data->custom_state) {
-                                case "PAUSED_PLAYBACK":
+                                case 'PAUSED_PLAYBACK':
                                     echo "Pausing the hell out of $controller_ip\n";
                                     $controller_home->setState(203);
                                     break;
-                                case "PLAYING":
+                                case 'PLAYING':
                                     echo "Playing the hell out of $controller_ip\n";
                                     $controller_home->setState(202);
                                     break;
                                 default:
                                     echo "Unknown custom state: $data->custom_state\n";
                             }
-                            echo "Match.....\n\n\n\n\n\n\n";
-                        } else {
-                            echo "No custom_state for controller: $controller_ip\n";
                         }
+                        echo "Match.....\n\n\n\n\n\n\n";
                     } else {
-                        echo "No data available for controller: $controller_ip\n";
+                        echo "No custom_state for controller: $controller_ip\n";
                     }
                 } else {
                     echo "No data available for controller: $controller_ip\n";
@@ -70,7 +67,6 @@ class Pause
 
 
 
-
     public function getInfo()
     {
         $client = new Client();
@@ -80,7 +76,7 @@ class Pause
             $response = $client->send($request);
             $result = $response->getBody()->getContents();
         } catch (GuzzleException $e) {
-            echo "Error: " . $e->getMessage();
+            echo 'Error: ' . $e->getMessage();
         }
 
         return $result;
