@@ -38,12 +38,8 @@ class Pause
 
                 if (isset($controllers_app->speakers->$controller_ip)) {
                     $data = $controllers_app->speakers->$controller_ip;
-
-                    // Ensure $data is not null
                     if ($data) {
-                        // Check if custom_state is set
                         if (isset($data->custom_state)) {
-                            // Use switch statement for cleaner code
                             switch ($data->custom_state) {
                                 case "PAUSED_PLAYBACK":
                                     echo "Pausing the hell out of $controller_ip\n";
