@@ -18,17 +18,8 @@ class SonosData
         $speakers = $this->getNowPlayingTracks();
         // var_dump($speakers);
         $this->sendTracksToWebhooks($speakers);
-        $this->checkReboot();
     }
-    private function checkReboot()
-    {
-        $devices = $this->network->getSpeakers();
 
-        foreach ($devices as $device) {
-            $device->getIp();
-            echo "Rebooting speaker: " . $device->getIp() . "\n";
-        }
-    }
     public function getNowPlayingTracks()
     {
         foreach ($this->network->getControllers() as $controller) {
