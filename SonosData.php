@@ -2,7 +2,6 @@
 
 use duncan3dc\Sonos\Network;
 use GuzzleHttp\Client;
-use Illuminate\Support\Carbon;
 
 class SonosData
 {
@@ -18,17 +17,8 @@ class SonosData
         $speakers = $this->getNowPlayingTracks();
         // var_dump($speakers);
         $this->sendTracksToWebhooks($speakers);
-        $this->checkReboot();
     }
-    private function checkReboot()
-    {
-        $devices = $this->network->getSpeakers();
 
-        foreach ($devices as $device) {
-            $device->getIp();
-            echo "Rebooting speaker: " . $device->getIp() . "\n";
-        }
-    }
     public function getNowPlayingTracks()
     {
         foreach ($this->network->getControllers() as $controller) {
@@ -56,29 +46,27 @@ class SonosData
 
         $json = json_encode(['speakers' => $speakers]);
         $secret = getenv('SONOS_SECRET');
-        $endpoints = explode(',', getenv('SONOS_ENDPOINT'));
-        foreach ($endpoints as $endpoint) {
-            $endpoint = $endpoint . '/webhooks/sonos';
-            try {
-                $hash = hash_hmac('sha256', $json, $secret);
+        $endpoint = getenv('SONOS_ENDPOINT').'/webhooks/sonos';
 
-                $response = $client->post($endpoint, [
-                    'json' => $json,
-                    'headers' => [
-                        'X-Signature' => $hash,
-                    ],
-                ]);
+        try {
+            $hash = hash_hmac('sha256', $json, $secret);
 
-                $statusCode = $response->getStatusCode();
+            $response = $client->post($endpoint, [
+                'json' => $json,
+                'headers' => [
+                    'X-Signature' => $hash,
+                ],
+            ]);
 
-                if ($statusCode == 200) {
-                    echo 'Endpoint succesfully send to ' . $endpoint . "\n";
-                    echo 'Body ' . $response->getBody() . "\n";
-                }
-            } catch (\Exception $e) {
-                echo 'Endpoint faild to send to ' . $endpoint . "\n";
-                echo 'Error occurred: ' . $e->getMessage() . "\n";
+            $statusCode = $response->getStatusCode();
+
+            if ($statusCode == 200) {
+                echo 'Endpoint succesfully send to '.$endpoint."\n";
+                echo 'Body '.$response->getBody()."\n";
             }
+        } catch (\Exception $e) {
+            echo 'Endpoint faild to send to '.$endpoint."\n";
+            echo 'Error occurred: '.$e->getMessage()."\n";
         }
     }
 }
