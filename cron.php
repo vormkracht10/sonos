@@ -1,10 +1,8 @@
 <?php
 
-require __DIR__ . '/bootstrap.php';
+require __DIR__.'/bootstrap.php';
 
-$sonosData = new SonosData();
-
-foreach (range(0, 60) as $seconds) {
-    $sonosData->run();
+foreach (range(0, 1000000) as $seconds) {
+    (new SonosData)->run();
     sleep(1);
 }

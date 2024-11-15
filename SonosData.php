@@ -9,13 +9,13 @@ class SonosData
 
     public function __construct()
     {
-        $this->network = new Network();
+        $this->network = new Network;
     }
 
     public function run()
     {
         $speakers = $this->getNowPlayingTracks();
-        // var_dump($speakers);
+
         $this->sendTracksToWebhooks($speakers);
     }
 
@@ -42,7 +42,7 @@ class SonosData
 
     public function sendTracksToWebhooks(array $speakers)
     {
-        $client = new Client();
+        $client = new Client;
 
         $json = json_encode(['speakers' => $speakers]);
         $secret = getenv('SONOS_SECRET');

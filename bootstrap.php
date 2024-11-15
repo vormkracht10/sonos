@@ -5,11 +5,11 @@ use Dotenv\Repository\Adapter\EnvConstAdapter;
 use Dotenv\Repository\Adapter\PutenvAdapter;
 use Dotenv\Repository\RepositoryBuilder;
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__.'/vendor/autoload.php';
 
-require __DIR__ . '/SonosData.php';
+require __DIR__.'/SonosData.php';
 
-$env = __DIR__ . '/.env';
+$env = __DIR__.'/.env';
 
 if (file_exists($env) || filesize($env) > 0) {
     $repository = RepositoryBuilder::createWithNoAdapters()
