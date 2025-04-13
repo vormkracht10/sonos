@@ -52,6 +52,7 @@ class SonosData
             $hash = hash_hmac('sha256', $json, $secret);
 
             $response = $client->post($endpoint, [
+                'verify' => false,
                 'json' => $json,
                 'headers' => [
                     'X-Signature' => $hash,
@@ -62,7 +63,6 @@ class SonosData
 
             if ($statusCode == 200) {
                 echo 'Endpoint succesfully send to '.$endpoint."\n";
-                echo 'Body '.$response->getBody()."\n";
             }
         } catch (\Exception $e) {
             echo 'Endpoint faild to send to '.$endpoint."\n";

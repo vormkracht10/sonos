@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>Label</key>
+    <string>com.manoj.sonos.cron</string>
+
+    <key>ProgramArguments</key>
+    <array>
+      <string>/bin/bash</string>
+      <string>/private/var/www/sonos/bash/run_actions.sh</string>
+    </array>
+
+    <key>StartInterval</key>
+    <integer>2</integer> 
+
+    <key>StandardOutPath</key>
+    <string>/private/var/www/sonos/cronlog/sonos.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/private/var/www/sonos/cronlog/sonos.log</string>
+  </dict>
+</plist>

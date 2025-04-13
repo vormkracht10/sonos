@@ -9,6 +9,8 @@ require __DIR__.'/vendor/autoload.php';
 
 require __DIR__.'/SonosData.php';
 
+require __DIR__. '/CheckForActions.php';
+
 $env = __DIR__.'/.env';
 
 if (file_exists($env) || filesize($env) > 0) {
